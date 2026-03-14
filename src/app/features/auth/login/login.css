@@ -1,0 +1,31 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  width: 100%;
+  background-color: #f5f5f5; /* Optional light grey background */
+}
+
+mat-card {
+  width: 100%;
+  max-width: 400px; /* Prevents the card from being too wide */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-form-field {
+  width: 100%; /* Ensures inputs fill the card width */
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 10px;
+  width: 100%; /* Makes the login button full width */
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}

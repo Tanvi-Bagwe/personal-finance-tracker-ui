@@ -7,6 +7,6 @@ import { RouterLink, RouterModule } from '@angular/router';
   selector: 'app-sidebar',
   imports: [MatListModule, MatIconModule, RouterModule, RouterLink],
   templateUrl: './sidebar.html',
-  styleUrl: './sidebar.css',
+  styleUrl: './sidebar.scss',
 })
 export class Sidebar {}

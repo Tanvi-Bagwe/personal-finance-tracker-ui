@@ -21,7 +21,7 @@ import { Header } from '../../../layout/header/header';
     Header,
   ],
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrl: './login.scss',
 })
 export class Login {
   protected password: any;

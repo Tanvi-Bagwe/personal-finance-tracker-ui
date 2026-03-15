@@ -19,6 +19,6 @@ import { Header } from '../header/header';
     Header,
   ],
   templateUrl: './dashboard-layout.html',
-  styleUrl: './dashboard-layout.css',
+  styleUrl: './dashboard-layout.scss',
 })
 export class DashboardLayout {}

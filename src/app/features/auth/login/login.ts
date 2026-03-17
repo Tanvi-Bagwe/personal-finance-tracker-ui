@@ -49,7 +49,7 @@ export class Login implements OnInit {
         this.notification.show('success', 'Login successful!');
         this.router.navigate(['/dashboard']);
       },
-      error: (err) => {
+      error: () => {
         this.notification.show('error', 'Login failed: Invalid credentials');
       },
     });

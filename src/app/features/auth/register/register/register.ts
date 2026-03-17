@@ -53,7 +53,7 @@ export class Register implements OnInit {
         this.notification.show('success', 'Registration successful!');
         this.router.navigate(['/login']);
       },
-      error: (err) => {
+      error: () => {
         this.notification.show('error', 'Registration failed');
       },
     });

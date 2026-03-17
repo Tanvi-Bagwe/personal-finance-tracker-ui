@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Header } from '../header/header';
+import { AppStore } from '../../shared/service/app-store/app-store.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -29,7 +30,7 @@ export class Sidebar implements OnDestroy {
   private readonly _mobileQuery: MediaQueryList;
   private readonly _mobileQueryListener: () => void;
 
-  constructor() {
+  constructor(readonly appStore: AppStore) {
     const media = inject(MediaMatcher);
 
     this._mobileQuery = media.matchMedia('(max-width: 600px)');

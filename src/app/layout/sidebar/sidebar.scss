@@ -1,0 +1,29 @@
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; // Fill the whole screen
+}
+
+.sidebar-toolbar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: 10; // Keep it above the side nav
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2),
+  0 6px 10px 0 rgba(0,0,0,.14),
+  0 1px 18px 0 rgba(0,0,0,.12);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sidebar-sidenav-container {
+  flex: 1; // Content fills the rest of the height
+}
+
+mat-sidenav {
+  width: 250px;
+  border-right: none; // Cleaner look
+  background-color: var(--mat-sidenav-container-background-color);
+}

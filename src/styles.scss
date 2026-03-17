@@ -1,5 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
-.dark-theme {
-  background: #121212;
-  color: white;
+
+@use 'material-theme';
+
+html, body {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  height: 100%;
+  margin: 0;
+  // Apply global background and text colors
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }

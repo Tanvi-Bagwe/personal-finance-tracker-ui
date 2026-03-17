@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatCard } from '@angular/material/card';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -24,7 +24,7 @@ import { AppStore } from '../../../shared/service/app-store/app-store.service';
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class Login {
+export class Login implements OnInit {
   protected password: any;
   protected username: any;
   constructor(
@@ -32,6 +32,12 @@ export class Login {
     private readonly appStore: AppStore,
     private readonly router: Router,
   ) {}
+
+  ngOnInit() {
+    if(this.appStore.isLoggedIn()){
+      this.router.navigate(['/dashboard']);
+    }
+  }
 
   login() {
     this.api.login({ username: this.username, password: this.password }).subscribe((res) => {

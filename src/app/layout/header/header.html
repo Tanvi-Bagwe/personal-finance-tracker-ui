@@ -1,7 +1,10 @@
 <mat-toolbar color="primary" class="header">
-  <button mat-icon-button>
-    <mat-icon>menu</mat-icon>
-  </button>
+  @if (appStore.isLoggedIn()){
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+  }
+
   <h1 class="sidebar-app-name">Finance Tracker</h1>
 
   <span class="spacer"></span>

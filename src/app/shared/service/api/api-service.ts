@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { LoginRequest, RegisterRequest } from '../../models/auth-models';
 
 @Injectable({
@@ -16,7 +15,7 @@ export class ApiService {
   }
 
   register(data: RegisterRequest) {
-    return this.http.post(`${this.API_URL}/register/`, data);
+    return this.http.post(`${this.API_URL}/auth/register`, data);
   }
 
   forgotPassword(email: string) {

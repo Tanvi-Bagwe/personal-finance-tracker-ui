@@ -3,7 +3,6 @@
   <mat-card>
     <h2>Login</h2>
 
-    <!-- Remove (ngSubmit) from here -->
     <form>
       <mat-form-field appearance="outline">
         <mat-label>Username</mat-label>
@@ -15,9 +14,11 @@
         <input matInput type="password" [(ngModel)]="password" name="password" required>
       </mat-form-field>
 
-      <!-- Add (click) here and set type="button" -->
       <button mat-raised-button color="primary" type="button" (click)="login()">
         Login
+      </button>
+      <button mat-button type="button" routerLink="/register" style="margin-top: 8px; width: 100%;">
+        Don't have an account? Register
       </button>
     </form>
   </mat-card>

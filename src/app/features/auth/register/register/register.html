@@ -1,0 +1,39 @@
+<app-header></app-header>
+
+<div class="registration-container">
+  <mat-card class="professional-card" appearance="outlined">
+    <mat-card-content>
+      <h2>Create Account</h2>
+
+      <form class="standard-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="registerData.username" name="username" required>
+          <mat-icon matPrefix>person</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [(ngModel)]="registerData.email" name="email" required>
+          <mat-icon matPrefix>email</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" [(ngModel)]="registerData.password" name="password" required>
+          <mat-icon matPrefix>lock</mat-icon>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-flat-button color="primary" type="button" (click)="onRegister()">
+            Register
+          </button>
+
+          <button mat-button type="button" routerLink="/login" style="margin-top: 8px; width: 100%;">
+            Already have an account? Login
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -10,3 +10,28 @@ html, body {
   color: var(--text-color);
   transition: background-color 0.3s, color 0.3s;
 }
+
+mat-card {
+  width: 100%;
+  max-width: 400px; /* Prevents the card from being too wide */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+mat-form-field {
+  width: 100%; /* Ensures inputs fill the card width */
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 10px;
+  width: 100%; /* Makes the login button full width */
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}

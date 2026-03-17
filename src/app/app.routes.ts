@@ -4,21 +4,19 @@ import { DashboardLayout } from './layout/dashboard-layout/dashboard-layout';
 import { authGuardTsGuard } from './core/guards/auth.guard.ts-guard';
 
 export const routes: Routes = [
-    {
-        path: "login",
-        component: Login
-    },
+  {
+    path: 'login',
+    component: Login,
+  },
 
-    {
-        path: "",
-        component: DashboardLayout,
-        canActivate: [authGuardTsGuard],
-        children: [
-
-            { path: "dashboard", component: DashboardLayout },
-            /* { path: "categories", component: Categ }, */
-            /* { path: "transactions", component: TransactionsComponent } */
-
-        ]
-    }
+  {
+    path: '',
+    component: DashboardLayout,
+    canActivate: [authGuardTsGuard],
+    children: [
+      { path: 'dashboard', component: DashboardLayout },
+      /* { path: "categories", component: Categ }, */
+      /* { path: "transactions", component: TransactionsComponent } */
+    ],
+  },
 ];

@@ -39,7 +39,6 @@ export class Login {
       })
       .subscribe((res: any) => {
         this.auth.storeTokens(res);
-
         this.router.navigate(['/dashboard']);
       });
   }

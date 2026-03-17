@@ -3,7 +3,8 @@
   <mat-card>
     <h2>Login</h2>
 
-    <form (ngSubmit)="login()">
+    <!-- Remove (ngSubmit) from here -->
+    <form>
       <mat-form-field appearance="outline">
         <mat-label>Username</mat-label>
         <input matInput [(ngModel)]="username" name="username" required>
@@ -14,7 +15,8 @@
         <input matInput type="password" [(ngModel)]="password" name="password" required>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit">
+      <!-- Add (click) here and set type="button" -->
+      <button mat-raised-button color="primary" type="button" (click)="login()">
         Login
       </button>
     </form>

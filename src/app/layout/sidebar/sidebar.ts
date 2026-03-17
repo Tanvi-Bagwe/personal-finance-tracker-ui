@@ -2,15 +2,9 @@ import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { MatListModule } from '@angular/material/list'; // For mat-nav-list
 import { MatIconModule } from '@angular/material/icon'; // For mat-icon
 import { RouterModule } from '@angular/router';
-import {
-  MatSidenav,
-  MatSidenavContainer,
-  MatSidenavContent,
-  MatSidenavModule,
-} from '@angular/material/sidenav';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatIconButton } from '@angular/material/button';
+import { MatSidenav, MatSidenavContainer, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { Header } from '../header/header';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,10 +14,9 @@ import { MediaMatcher } from '@angular/cdk/layout';
     RouterModule,
     MatSidenavContent,
     MatSidenavContainer,
-    MatToolbar,
-    MatIconButton,
     MatSidenav,
     MatSidenavModule,
+    Header,
   ],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
@@ -43,20 +36,6 @@ export class Sidebar implements OnDestroy {
     this.isMobile.set(this._mobileQuery.matches);
     this._mobileQueryListener = () => this.isMobile.set(this._mobileQuery.matches);
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
-  }
-
-  darkMode = signal(false);
-
-  toggleDarkMode() {
-    this.darkMode.update((v) => !v);
-    const host = document.documentElement; // or document.body
-    if (this.darkMode()) {
-      host.classList.add('theme-dark');
-      host.classList.remove('theme-light');
-    } else {
-      host.classList.add('theme-light');
-      host.classList.remove('theme-dark');
-    }
   }
 
   ngOnDestroy(): void {

@@ -1,17 +1,1 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
-:root {
-  // Use the modern light-dark() function for automatic switching
-  // or define base variables that will be overridden.
-  --primary: #{light-dark(#3f51b5, #7986cb)};
-  --bg-color: #{light-dark(#ffffff, #121212)};
-  --text-color: #{light-dark(#000000, #ffffff)};
-}
-
-// Manual overrides for specific theme classes
-.theme-dark {
-  color-scheme: dark; // Forces light-dark() to use the second value
-}
-
-.theme-light {
-  color-scheme: light; // Forces light-dark() to use the first value
-}

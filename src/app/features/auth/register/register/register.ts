@@ -46,7 +46,7 @@ export class Register implements OnInit {
   }
 
   onRegister() {
-    this.api.register(this.registerData).subscribe((res) => {
+    this.api.register(this.registerData).subscribe( => {
       this.router.navigate(['/login']);
     });
   }

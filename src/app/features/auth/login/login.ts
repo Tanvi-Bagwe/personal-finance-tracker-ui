@@ -41,9 +41,15 @@ export class Login implements OnInit {
   }
 
   login() {
-    this.api.login({ username: this.username, password: this.password }).subscribe((res) => {
-      this.appStore.setAuth(res);
-      this.router.navigate(['/dashboard']);
+    this.api.login({ username: this.username, password: this.password }).subscribe({
+      next: (res) => {
+        this.appStore.setAuth(res);
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.error('Login failed', err);
+      },
+      complete: () => {},
     });
   }
 }

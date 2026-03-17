@@ -1,0 +1,32 @@
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(1px);
+
+  // 3. Keep it on top of everything (headers, sidebars, etc.)
+  z-index: 99999;
+
+  // 4. Center the content
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.loader-text {
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  color: var(--mat-sys-primary, #3f51b5);
+}

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../core/services/auth-service';
 import { Router } from '@angular/router';
 import { MatCard } from '@angular/material/card';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -7,6 +6,8 @@ import { MatInput } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { Header } from '../../../layout/header/header';
+import { ApiService } from '../../../shared/service/api/api-service';
+import { AppStore } from '../../../shared/service/app-store/app-store.service';
 
 @Component({
   selector: 'app-login',
@@ -27,19 +28,15 @@ export class Login {
   protected password: any;
   protected username: any;
   constructor(
-    private readonly auth: AuthService,
+    private readonly api: ApiService,
+    private readonly appStore: AppStore,
     private readonly router: Router,
   ) {}
 
   login() {
-    this.auth
-      .login({
-        username: this.username,
-        password: this.password,
-      })
-      .subscribe((res: any) => {
-        this.auth.storeTokens(res);
-        this.router.navigate(['/dashboard']);
-      });
+    this.api.login({ username: this.username, password: this.password }).subscribe((res) => {
+      this.appStore.setAuth(res);
+      this.router.navigate(['/dashboard']);
+    });
   }
 }

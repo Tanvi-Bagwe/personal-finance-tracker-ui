@@ -8,6 +8,7 @@ import { MatButton } from '@angular/material/button';
 import { Header } from '../../../layout/header/header';
 import { ApiService } from '../../../shared/service/api/api-service';
 import { AppStore } from '../../../shared/service/app-store/app-store.service';
+import { NotificationService } from '../../../shared/service/notification-service/notification-service';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ export class Login implements OnInit {
     private readonly api: ApiService,
     private readonly appStore: AppStore,
     private readonly router: Router,
+    private readonly notification: NotificationService,
   ) {}
 
   ngOnInit() {
@@ -44,12 +46,12 @@ export class Login implements OnInit {
     this.api.login({ username: this.username, password: this.password }).subscribe({
       next: (res) => {
         this.appStore.setAuth(res);
+        this.notification.show('success', 'Login successful!');
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        console.error('Login failed', err);
+        this.notification.show('error', 'Login failed: Invalid credentials');
       },
-      complete: () => {},
     });
   }
 }

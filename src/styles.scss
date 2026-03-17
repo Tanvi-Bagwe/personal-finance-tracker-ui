@@ -1,4 +1,3 @@
-
 @use 'material-theme';
 
 html, body {
@@ -20,18 +19,90 @@ mat-card {
 }
 
 
-
 mat-form-field {
   width: 100%; /* Ensures inputs fill the card width */
   margin-bottom: 10px;
 }
 
-button {
-  margin-top: 10px;
-  width: 100%; /* Makes the login button full width */
+.login-register-button {
+  width: 100%;
+}
+
+.form-secondary-button {
+  margin-top: 8px;
+  width: 100%;
 }
 
 h2 {
   text-align: center;
   margin-bottom: 20px;
+}
+
+// Success Snackbar
+.snack-success {
+  --mdc-snackbar-container-color: #2e7d32; // Deep green
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-button-color: #ffffff;
+
+  // This is the "magic" line that forces the inner surface to listen
+  .mat-mdc-snackbar-surface {
+    background-color: var(--mdc-snackbar-container-color) !important;
+    color: var(--mdc-snackbar-supporting-text-color) !important;
+  }
+}
+
+// Error Snackbar
+.snack-error {
+  --mdc-snackbar-container-color: #d32f2f; // Deep red
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-button-color: #ffffff;
+
+  .mat-mdc-snackbar-surface {
+    background-color: var(--mdc-snackbar-container-color) !important;
+    color: var(--mdc-snackbar-supporting-text-color) !important;
+  }
+}
+
+// Warn Snackbar
+.snack-warn {
+  --mdc-snackbar-container-color: #ed6c02; // Orange
+  --mdc-snackbar-supporting-text-color: #ffffff;
+
+  .mat-mdc-snackbar-surface {
+    background-color: var(--mdc-snackbar-container-color) !important;
+  }
+}
+
+.mat-mdc-snack-bar-actions {
+  display: flex;
+  align-items: center; // Vertically center the button
+  justify-content: center;
+  margin-right: 0 !important; // Adjust spacing if needed
+}
+
+// This targets the button itself
+.mat-mdc-snack-bar-action {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  min-width: 0 !important; // Removes extra width padding
+  padding: 0 8px !important; // Control the click area
+
+  // If the X still feels "high", use this nudge:
+  .mdc-button__label {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    margin-top: -2px; // The "Golden Nudge"
+  }
+}
+
+// Ensure the surface (the red box) uses flex to align its children
+.mat-mdc-snackbar-surface {
+  display: flex !important;
+  align-items: center !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  min-height: 48px !important; // Standard M3 height
 }

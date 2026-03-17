@@ -9,6 +9,7 @@ import { ApiService } from '../../../../shared/service/api/api-service';
 import { AppStore } from '../../../../shared/service/app-store/app-store.service';
 import { MatIcon } from '@angular/material/icon';
 import { RegisterRequest } from '../../../../shared/models/auth-models';
+import { NotificationService } from '../../../../shared/service/notification-service/notification-service';
 
 @Component({
   selector: 'app-register',
@@ -32,6 +33,7 @@ export class Register implements OnInit {
     private readonly api: ApiService,
     private readonly appStore: AppStore,
     private readonly router: Router,
+    private readonly notification: NotificationService,
   ) {}
   registerData: RegisterRequest = {
     username: '',
@@ -46,8 +48,14 @@ export class Register implements OnInit {
   }
 
   onRegister() {
-    this.api.register(this.registerData).subscribe( ()=> {
-      this.router.navigate(['/login']);
+    this.api.register(this.registerData).subscribe({
+      next: () => {
+        this.notification.show('success', 'Registration successful!');
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        this.notification.show('error', 'Registration failed');
+      },
     });
   }
 }

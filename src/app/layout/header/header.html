@@ -6,7 +6,7 @@
 
   <span class="spacer"></span>
 
-  <button mat-icon-button (click)="toggleDarkMode()">
-    <mat-icon>{{ darkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  <button mat-icon-button (click)="appStore.toggleTheme()">
+    <mat-icon>{{ appStore.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
   </button>
 </mat-toolbar>

@@ -1,0 +1,55 @@
+<div class="categories-container">
+  <h2>Manage Categories</h2>
+
+  <mat-card class="setup-card">
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Category Name</mat-label>
+        <input matInput [(ngModel)]="newCategory.name" placeholder="e.g. Rent, Salary">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="type-select">
+        <mat-label>Type</mat-label>
+        <mat-select [(ngModel)]="newCategory.type">
+          <mat-option value="expense">Expense</mat-option>
+          <mat-option value="income">Income</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+    <button mat-raised-button color="primary" class="add-button" (click)="onCreate()">
+      <mat-icon>add</mat-icon>
+      Add Category
+    </button>
+  </mat-card>
+
+  <div class="categories-grid">
+    <mat-card class="category-list-card">
+      <h3 class="expense-header">Expenses</h3>
+      @for (cat of expenseCategories(); track cat.id) {
+        <div class="category-item">
+          <span class="cat-name">{{ cat.name }}</span>
+          <button mat-icon-button color="warn" (click)="onDelete(cat.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      } @empty {
+        <p>No categories found.</p>
+      }
+    </mat-card>
+
+    <mat-card class="category-list-card">
+      <h3 class="income-header">Income</h3>
+      @for (cat of incomeCategories(); track cat.id) {
+        <div class="category-item">
+          <span class="cat-name">{{ cat.name }}</span>
+          <button mat-icon-button color="warn" (click)="onDelete(cat.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      } @empty {
+        <p>No categories found.</p>
+      }
+    </mat-card>
+  </div>
+</div>

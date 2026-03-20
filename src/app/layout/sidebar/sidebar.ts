@@ -23,7 +23,7 @@ import { AppStore } from '../../shared/service/app-store/app-store.service';
   styleUrl: './sidebar.scss',
 })
 export class Sidebar implements OnDestroy {
-  protected readonly fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
+  protected readonly fillerNav = Array.from({ length: 5 }, (_, i) => `Nav Item ${i + 1}`);
 
   protected readonly isMobile = signal(true);
 

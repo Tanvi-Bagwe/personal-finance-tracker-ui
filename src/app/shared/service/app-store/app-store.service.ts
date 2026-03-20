@@ -1,4 +1,5 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
+import { AuthResponse } from '../../models/auth-models';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class AppStore {
   }
 
   // --- ACTIONS ---
-  setAuth(res: any) {
+  setAuth(res: AuthResponse) {
     localStorage.setItem('access', res.access);
     localStorage.setItem('refresh', res.refresh);
     this.access.set(res.access);
@@ -34,6 +35,7 @@ export class AppStore {
   logout() {
     localStorage.clear();
     this.access.set(null);
+    this.refresh.set(null);
     this.user.set(null);
   }
 

@@ -9,6 +9,11 @@ export interface RegisterRequest {
   password: string;
 }
 
+export interface ChangePasswordRequest {
+  old_password: string;
+  new_password: string;
+}
+
 export interface ResetPasswordRequest {
   user_id: number;
   token: string;

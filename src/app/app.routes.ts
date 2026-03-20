@@ -3,6 +3,7 @@ import { Login } from './features/auth/login/login';
 import { DashboardLayout } from './layout/dashboard-layout/dashboard-layout';
 import { authGuardTsGuard } from './core/guards/auth.guard.ts-guard';
 import { Register } from './features/auth/register/register/register';
+import { ChangePassword } from './layout/change-password/change-password';
 
 export const routes: Routes = [
   {
@@ -15,11 +16,11 @@ export const routes: Routes = [
   },
 
   {
-    path: '',
+    path: 'dashboard',
     component: DashboardLayout,
     canActivate: [authGuardTsGuard],
     children: [
-      { path: 'dashboard', component: DashboardLayout },
+      { path: 'change-password', component: ChangePassword },
       /* { path: "categories", component: Categ }, */
       /* { path: "transactions", component: TransactionsComponent } */
     ],

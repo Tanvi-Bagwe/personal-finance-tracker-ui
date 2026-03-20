@@ -71,7 +71,7 @@ export class CategoriesComponent implements OnInit {
       return;
     }
     this.api.createCategory(this.newCategory).subscribe({
-      next: (res) => {
+      next: () => {
         this.notification.show('success', 'Category created successfully!');
         this.loadCategories();
         this.newCategory.name = '';
@@ -92,7 +92,7 @@ export class CategoriesComponent implements OnInit {
           this.notification.show('success', 'Category deleted successfully!');
           this.loadCategories();
         },
-        error: (err: any) => {
+        error: () => {
           const serverMessage = 'Something went wrong';
           this.notification.show('error', serverMessage);
           this.loadCategories();

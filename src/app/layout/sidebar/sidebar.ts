@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, signal } from '@angular/core';
-import { MatListModule } from '@angular/material/list'; // For mat-nav-list
-import { MatIconModule } from '@angular/material/icon'; // For mat-icon
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -23,7 +23,6 @@ import { AppStore } from '../../shared/service/app-store/app-store.service';
   styleUrl: './sidebar.scss',
 })
 export class Sidebar implements OnDestroy {
-  protected readonly fillerNav = Array.from({ length: 5 }, (_, i) => `Nav Item ${i + 1}`);
 
   protected readonly isMobile = signal(true);
 

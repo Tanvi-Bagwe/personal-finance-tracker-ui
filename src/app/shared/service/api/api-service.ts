@@ -7,6 +7,7 @@ import {
   RegisterRequest,
 } from '../../models/auth-models';
 import { AppStore } from '../app-store/app-store.service';
+import { CreateCategoryRequest } from '../../models/category.model';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,18 @@ export class ApiService {
   logout() {
     localStorage.removeItem('access');
     localStorage.removeItem('refresh');
+  }
+
+  getCategories() {
+    return this.http.get(`${this.API_URL}/category/`, { headers: this.getHeader() });
+  }
+
+  createCategory(createCategoryRequest: CreateCategoryRequest) {
+    return this.http.post(`${this.API_URL}/category/create`, createCategoryRequest, { headers: this.getHeader() });
+  }
+
+  deleteCategory(id: number) {
+    return this.http.delete(`${this.API_URL}/category/${id}/delete`, { headers: this.getHeader() });
   }
 
   getHeader(): HttpHeaders {

@@ -8,6 +8,7 @@ import {
 } from '../../models/auth-models';
 import { AppStore } from '../app-store/app-store.service';
 import { CreateCategoryRequest } from '../../models/category.model';
+import { CreateTransactionRequest, Transaction } from '../../models/transaction.model';
 
 @Injectable({
   providedIn: 'root',
@@ -46,21 +47,40 @@ export class ApiService {
     return this.http.post(`${this.API_URL}/reset-password/`, data);
   }
 
-  logout() {
-    localStorage.removeItem('access');
-    localStorage.removeItem('refresh');
-  }
-
   getCategories() {
     return this.http.get(`${this.API_URL}/category/`, { headers: this.getHeader() });
   }
 
   createCategory(createCategoryRequest: CreateCategoryRequest) {
-    return this.http.post(`${this.API_URL}/category/create`, createCategoryRequest, { headers: this.getHeader() });
+    return this.http.post(`${this.API_URL}/category/create`, createCategoryRequest, {
+      headers: this.getHeader(),
+    });
   }
 
   deleteCategory(id: number) {
     return this.http.delete(`${this.API_URL}/category/${id}/delete`, { headers: this.getHeader() });
+  }
+
+  deleteTransaction(id: number) {
+    return this.http.delete(`${this.API_URL}/transactions/${id}/delete`, {
+      headers: this.getHeader(),
+    });
+  }
+
+  createTransaction(newTransaction: CreateTransactionRequest) {
+    return this.http.post(`${this.API_URL}/transactions/create`, newTransaction, {
+      headers: this.getHeader(),
+    });
+  }
+
+  getTransactions() {
+    return this.http.get(`${this.API_URL}/transactions/`, { headers: this.getHeader() });
+  }
+
+  updateTransaction(data: Transaction) {
+    return this.http.put(`${this.API_URL}/transactions/${data.id}/update`, data, {
+      headers: this.getHeader(),
+    });
   }
 
   getHeader(): HttpHeaders {

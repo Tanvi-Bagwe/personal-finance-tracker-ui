@@ -5,6 +5,7 @@ import { authGuardTsGuard } from './core/guards/auth.guard.ts-guard';
 import { Register } from './features/auth/register/register/register';
 import { ChangePassword } from './layout/change-password/change-password';
 import { CategoriesComponent } from './features/categories/categories';
+import { TransactionsComponent } from './features/transactions/transactions';
 
 export const routes: Routes = [
   {
@@ -22,8 +23,8 @@ export const routes: Routes = [
     canActivate: [authGuardTsGuard],
     children: [
       { path: 'change-password', component: ChangePassword },
-       { path: "categories", component: CategoriesComponent },
-      /* { path: "transactions", component: TransactionsComponent } */
+      { path: 'categories', component: CategoriesComponent },
+      { path: 'transactions', component: TransactionsComponent },
     ],
   },
 ];

@@ -6,6 +6,8 @@ import { Register } from './features/auth/register/register/register';
 import { ChangePassword } from './layout/change-password/change-password';
 import { CategoriesComponent } from './features/categories/categories';
 import { TransactionsComponent } from './features/transactions/transactions';
+import { Reminder } from './features/reminder/reminder';
+import { DashboardHome } from './features/dashboard-home/dashboard-home';
 
 export const routes: Routes = [
   {
@@ -22,9 +24,11 @@ export const routes: Routes = [
     component: DashboardLayout,
     canActivate: [authGuardTsGuard],
     children: [
+      { path: '', component: DashboardHome },
       { path: 'change-password', component: ChangePassword },
       { path: 'categories', component: CategoriesComponent },
       { path: 'transactions', component: TransactionsComponent },
+      { path: 'reminders', component: Reminder },
     ],
   },
 ];

@@ -1,0 +1,139 @@
+.dashboard-page {
+  padding: 1rem;
+  background: #f8f9fa;
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow-x: hidden;
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+
+    .stat-card {
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: none;
+
+      .card-body {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .icon {
+          flex-shrink: 0;
+          font-size: 28px;
+          width: 44px;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 10px;
+
+          &.income {
+            background: #e8f5e9;
+            color: #2e7d32;
+          }
+
+          &.expense {
+            background: #ffebee;
+            color: #c62828;
+          }
+
+          &.balance {
+            background: #e8eaf6;
+            color: #283593;
+          }
+        }
+
+        .info {
+          min-width: 0;
+
+          label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+          }
+
+          h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+
+  .main-grid {
+    display: grid;
+
+    grid-template-columns: 1fr;
+    gap: 20px;
+
+    /* On screens larger than 1200px (Desktop),
+       switch to 2 columns.
+    */
+    @media (min-width: 1200px) {
+      grid-template-columns: repeat(2, 1fr);
+
+      .chart-card.large {
+        grid-column: span 2;
+      }
+    }
+
+    .chart-card {
+      min-width: 0;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      background: #ffffff;
+
+      h3 {
+        margin: 0 0 16px 0;
+        font-size: 15px;
+        color: #444;
+        font-weight: 600;
+      }
+
+      .content {
+        width: 100%;
+        min-height: 300px;
+        display: block;
+
+        &.center {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .sub-text {
+        color: #888;
+        font-size: 12px;
+        margin-top: 8px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+apx-chart {
+  width: 100% !important;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  color: #999;
+}

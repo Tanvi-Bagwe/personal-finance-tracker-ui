@@ -1,1 +1,101 @@
-<p>dashboard-home works!</p>
+<div class="dashboard-page">
+  <div class="stats-row">
+    <mat-card class="stat-card">
+      <div class="card-body">
+        <mat-icon class="icon income">arrow_upward</mat-icon>
+        <div class="info">
+          <label>Total Income</label>
+          <h2>{{ (summary()?.income || 0) | currency:'EUR' }}</h2>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <div class="card-body">
+        <mat-icon class="icon expense">arrow_downward</mat-icon>
+        <div class="info">
+          <label>Total Expense</label>
+          <h2>{{ (summary()?.expense || 0) | currency:'EUR' }}</h2>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <div class="card-body">
+        <mat-icon class="icon balance">account_balance_wallet</mat-icon>
+        <div class="info">
+          <label>Net Balance</label>
+          <h2>{{ (summary()?.balance || 0) | currency:'EUR' }}</h2>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="main-grid">
+    <mat-card class="chart-card large">
+      <div class="header"><h3>Monthly Cashflow</h3></div>
+      <div class="content">
+        @if (barChartOptions()) {
+          <apx-chart
+            [series]="barChartOptions().series"
+            [chart]="barChartOptions().chart"
+            [xaxis]="barChartOptions().xaxis"
+            [yaxis]="barChartOptions().yaxis"
+            [colors]="barChartOptions().colors"
+            [plotOptions]="barChartOptions().plotOptions"
+            [legend]="barChartOptions().legend">
+          </apx-chart>
+        } @else {
+          <div class="loading-spinner">Loading Cashflow...</div>
+        }
+      </div>
+    </mat-card>
+
+    <mat-card class="chart-card">
+      <div class="header"><h3>Expense Distribution</h3></div>
+      <div class="content">
+        @if (donutChartOptions()) {
+          <apx-chart
+            [series]="donutChartOptions().series"
+            [chart]="donutChartOptions().chart"
+            [labels]="donutChartOptions().labels"
+            [colors]="donutChartOptions().colors"
+            [legend]="donutChartOptions().legend">
+          </apx-chart>
+        }
+      </div>
+    </mat-card>
+
+    <mat-card class="chart-card">
+      <div class="header"><h3>Reminder Health</h3></div>
+      <div class="content center">
+        @if (radialChartOptions()) {
+          <apx-chart
+            [series]="radialChartOptions().series"
+            [chart]="radialChartOptions().chart"
+            [plotOptions]="radialChartOptions().plotOptions"
+            [labels]="radialChartOptions().labels"
+            [colors]="radialChartOptions().colors">
+          </apx-chart>
+        }
+        <p class="sub-text">Based on overdue bills</p>
+      </div>
+    </mat-card>
+
+    <mat-card class="chart-card">
+      <div class="header"><h3>Revenue Trend</h3></div>
+      <div class="content"> @if (lineChartOptions()) {
+        <apx-chart
+          [series]="lineChartOptions().series"
+          [chart]="lineChartOptions().chart"
+          [stroke]="lineChartOptions().stroke"
+          [colors]="lineChartOptions().colors"
+          [fill]="lineChartOptions().fill"
+          [xaxis]="lineChartOptions().xaxis"
+          [dataLabels]="lineChartOptions().dataLabels">
+        </apx-chart>
+      }
+      </div>
+    </mat-card>
+  </div>
+</div>

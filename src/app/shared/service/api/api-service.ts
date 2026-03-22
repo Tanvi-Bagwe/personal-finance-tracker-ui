@@ -112,6 +112,10 @@ export class ApiService {
     });
   }
 
+  getDashboardSummary() {
+    return this.http.get(`${this.API_URL}/dashboard/summary`, { headers: this.getHeader() });
+  }
+
   getHeader(): HttpHeaders {
     return new HttpHeaders({
       Authorization: 'Bearer ' + this.store.access(),

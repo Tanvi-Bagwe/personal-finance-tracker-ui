@@ -9,6 +9,7 @@ import {
 import { AppStore } from '../app-store/app-store.service';
 import { CreateCategoryRequest } from '../../models/category.model';
 import { CreateTransactionRequest, Transaction } from '../../models/transaction.model';
+import { CreateReminderRequest, ReminderMoel } from '../../models/reminder.model';
 
 @Injectable({
   providedIn: 'root',
@@ -79,6 +80,34 @@ export class ApiService {
 
   updateTransaction(data: Transaction) {
     return this.http.put(`${this.API_URL}/transactions/${data.id}/update`, data, {
+      headers: this.getHeader(),
+    });
+  }
+
+  deleteReminder(id: number) {
+    return this.http.delete(`${this.API_URL}/reminders/${id}/delete`, {
+      headers: this.getHeader(),
+    });
+  }
+
+  updateReminderAction(id: number, data: any) {
+    return this.http.patch(`${this.API_URL}/reminders/${id}/action`, data, {
+      headers: this.getHeader(),
+    });
+  }
+
+  createReminder(newReminder: CreateReminderRequest) {
+    return this.http.post(`${this.API_URL}/reminders/create`, newReminder, {
+      headers: this.getHeader(),
+    });
+  }
+
+  getReminders() {
+    return this.http.get(`${this.API_URL}/reminders/`, { headers: this.getHeader() });
+  }
+
+  updateReminder(id: number, data: ReminderMoel) {
+    return this.http.put(`${this.API_URL}/reminders/${id}/update`, data, {
       headers: this.getHeader(),
     });
   }

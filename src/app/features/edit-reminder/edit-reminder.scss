@@ -1,0 +1,14 @@
+.dialog-content {
+  min-width: 400px;
+  padding-top: 10px !important;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+mat-form-field {
+  width: 100%;
+}

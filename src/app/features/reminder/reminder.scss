@@ -1,0 +1,141 @@
+.reminders-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 40px;
+    h1 { font-size: 2.2rem; font-weight: 800; color: #1a237e; margin: 0; }
+    p { color: #5c6bc0; font-size: 1.1rem; }
+  }
+}
+
+// FORM STYLING
+.form-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+
+  .reminder-card {
+    width: 100%;
+    max-width: 1000px;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    border: 1px solid #e8eaf6;
+
+    .reminder-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      padding: 10px;
+
+      mat-form-field {
+        flex: 2;
+        min-width: 150px;
+        &.small-field { flex: 1; }
+      }
+
+      .save-btn {
+        height: 54px;
+        padding: 0 30px;
+        border-radius: 10px;
+        font-weight: 600;
+        background-color: #3f51b5;
+      }
+    }
+  }
+}
+
+// TABLE STYLING
+.list-section {
+  width: 100%;
+  .table-card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+    border: none;
+
+    .full-width-table {
+      width: 100%;
+      background: white;
+
+      th.mat-mdc-header-cell {
+        background: #f5f7fb;
+        color: #3f51b5;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 13px;
+        padding: 20px;
+      }
+
+      td.mat-mdc-cell {
+        padding: 20px;
+        border-bottom: 1px solid #f0f2f5;
+      }
+
+      .is-unread { background-color: #fbfcfe; }
+    }
+  }
+}
+
+// ELEMENTS
+.status-pill {
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #e8f5e9;
+  color: #2e7d32;
+
+  &.new { background: #e3f2fd; color: #1565c0; }
+  &.urgent {
+    background: #ffebee;
+    color: #c62828;
+    animation: pulse-red 2s infinite;
+  }
+}
+
+.title-text { font-weight: 600; color: #2c3e50; font-size: 1rem; }
+.amount-text { font-weight: 700; color: #1a237e; }
+
+.date-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #78909c;
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  .complete-btn { color: #4caf50; }
+}
+
+.text-right { text-align: right; }
+
+.no-data {
+  text-align: center;
+  padding: 60px;
+  color: #b0bec5;
+  mat-icon { font-size: 50px; width: 50px; height: 50px; }
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(198, 40, 40, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(198, 40, 40, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(198, 40, 40, 0); }
+}
+
+// Responsive
+@media (max-width: 900px) {
+  .reminder-form {
+    flex-direction: column;
+    mat-form-field, .save-btn { width: 100% !important; }
+  }
+}

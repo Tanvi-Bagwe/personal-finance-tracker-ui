@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Edit Reminder</h2>
+<mat-dialog-content class="dialog-content">
+  <div class="edit-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput [(ngModel)]="data.title">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Amount (€)</mat-label>
+      <input matInput type="number" [(ngModel)]="data.amount">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Due Date</mat-label>
+      <input matInput type="date" [(ngModel)]="data.due_date">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Alert Days Before</mat-label>
+      <input matInput type="number" [(ngModel)]="data.reminder_days_before">
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Update Reminder</button>
+</mat-dialog-actions>

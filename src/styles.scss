@@ -12,12 +12,14 @@ html, body {
 
 mat-card {
   width: 100%;
-  max-width: 400px; /* Prevents the card from being too wide */
   padding: 20px;
   display: flex;
   flex-direction: column;
 }
 
+.mat-card-width-400 {
+  max-width: 400px;
+}
 
 mat-form-field {
   width: 100%; /* Ensures inputs fill the card width */

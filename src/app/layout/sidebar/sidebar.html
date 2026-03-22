@@ -7,10 +7,32 @@
                  [fixedInViewport]="isMobile()" fixedTopGap="56" [opened]="appStore.isSidebarOpen()"
                  (closed)="appStore.isSidebarOpen.set(false)">
       <mat-nav-list>
+        <a mat-list-item
+           routerLink="/dashboard"
+           routerLinkActive="active-item" [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon matListItemIcon>speed</mat-icon>
+          <div matListItemTitle>Dashboard</div>
+        </a>
+        <a mat-list-item
+           routerLink="categories"
+           routerLinkActive="active-item">
+          <mat-icon matListItemIcon>category</mat-icon>
+          <div matListItemTitle>Categories</div>
+        </a>
 
-        <a mat-list-item routerLink="categories">Categories</a>
-        <a mat-list-item routerLink="transactions">Transactions</a>
+        <a mat-list-item
+           routerLink="transactions"
+           routerLinkActive="active-item">
+          <mat-icon matListItemIcon>receipt_long</mat-icon>
+          <div matListItemTitle>Transactions</div>
+        </a>
 
+        <a mat-list-item
+           routerLink="reminders"
+           routerLinkActive="active-item">
+          <mat-icon matListItemIcon>notifications_active</mat-icon>
+          <div matListItemTitle>Reminders</div>
+        </a>
       </mat-nav-list>
     </mat-sidenav>
 

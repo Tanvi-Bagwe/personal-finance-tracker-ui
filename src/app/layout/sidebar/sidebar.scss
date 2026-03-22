@@ -27,3 +27,13 @@ mat-sidenav {
   border-right: none; // Cleaner look
   background-color: var(--mat-sidenav-container-background-color);
 }
+
+.active-item {
+  background-color: rgba(63, 81, 181, 0.1); // Light primary color background
+  color: #3f51b5 !important;
+  font-weight: 600;
+
+  mat-icon {
+    color: #3f51b5; // Ensure icon matches active text
+  }
+}

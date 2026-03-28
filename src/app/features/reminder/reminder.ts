@@ -2,8 +2,14 @@ import { Component, OnInit, signal } from '@angular/core';
 import { NotificationService } from '../../shared/service/notification-service/notification-service';
 import { ApiService } from '../../shared/service/api/api-service';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import {
@@ -23,6 +29,7 @@ import { CreateReminderRequest, ReminderMoel } from '../../shared/models/reminde
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { EditReminder } from '../edit-reminder/edit-reminder';
+import { ApiResponse } from '../../shared/models/api-response';
 
 @Component({
   selector: 'app-reminder',
@@ -49,20 +56,16 @@ import { EditReminder } from '../edit-reminder/edit-reminder';
     DatePipe,
     MatCardContent,
     MatTooltip,
+    ReactiveFormsModule,
+    MatError,
   ],
   templateUrl: './reminder.html',
   styleUrl: './reminder.scss',
 })
 export class Reminder implements OnInit {
+  reminderForm: FormGroup;
   reminders = signal<ReminderMoel[]>([]);
   isLoading = signal(false);
-
-  newReminder: CreateReminderRequest = {
-    title: '',
-    amount: null,
-    due_date: '',
-    reminder_days_before: 1,
-  };
 
   displayedColumns: string[] = ['status', 'title', 'amount', 'due_date', 'actions'];
 
@@ -70,7 +73,15 @@ export class Reminder implements OnInit {
     private readonly api: ApiService,
     private readonly notification: NotificationService,
     private readonly dialog: MatDialog,
-  ) {}
+    private readonly fb: FormBuilder,
+  ) {
+    this.reminderForm = this.fb.group({
+      reminder_days_before: [1],
+      title: ['', [Validators.required]],
+      due_date: ['', [Validators.required]],
+      amount: ['', [Validators.required, Validators.min(1)]],
+    });
+  }
 
   ngOnInit() {
     this.loadReminders();
@@ -79,8 +90,8 @@ export class Reminder implements OnInit {
   loadReminders() {
     this.isLoading.set(true);
     this.api.getReminders().subscribe({
-      next: (res: any) => {
-        this.reminders.set(res);
+      next: (res: ApiResponse) => {
+        this.reminders.set(res.data);
         this.isLoading.set(false);
       },
       error: () => {
@@ -91,26 +102,34 @@ export class Reminder implements OnInit {
 
   onCreate() {
     this.isLoading.set(true);
-    if (!this.newReminder.title || !this.newReminder.due_date || !this.newReminder.amount) {
+    if (this.reminderForm.invalid) {
       this.notification.show('warn', 'Please enter required fields');
       this.isLoading.set(false);
       return;
     }
 
-    if (new Date(this.newReminder.due_date) < new Date()) {
+    const newReminder: CreateReminderRequest = {
+      title: this.reminderForm.value.title,
+      amount: this.reminderForm.value.amount,
+      due_date: this.reminderForm.value.due_date,
+      reminder_days_before: this.reminderForm.value.reminder_days_before,
+    };
+
+    if (new Date(newReminder.due_date) < new Date()) {
       this.notification.show('error', 'Due date cannot be in the past.');
       return;
     }
 
-    this.api.createReminder(this.newReminder).subscribe({
-      next: () => {
+    this.api.createReminder(newReminder).subscribe({
+      next: (res: ApiResponse) => {
         this.notification.show('success', 'Reminder scheduled!');
         this.loadReminders();
         this.resetForm();
         this.isLoading.set(false);
       },
-      error: () => {
-        this.notification.show('error', 'Something went wrong!');
+      error: (err:any) => {
+        const msg = err.error?.message || 'An unexpected error occurred';
+        this.notification.show('error', msg);
         this.isLoading.set(false);
       },
     });
@@ -149,7 +168,7 @@ export class Reminder implements OnInit {
   }
 
   private resetForm() {
-    this.newReminder = { title: '', amount: null, due_date: '', reminder_days_before: 1 };
+    this.reminderForm.reset();
   }
 
   isUrgent(dueDate: string): boolean {
@@ -177,13 +196,12 @@ export class Reminder implements OnInit {
   }
 
   onEdit(reminder: ReminderMoel) {
-    // We create a shallow copy to avoid changing the table data before the API succeeds
     const dialogRef = this.dialog.open(EditReminder, {
       width: '450px',
-      data: { ...reminder }
+      data: { ...reminder },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.updateReminder(result);
       }

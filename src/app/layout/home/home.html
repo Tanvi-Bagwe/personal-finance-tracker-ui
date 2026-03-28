@@ -1,0 +1,88 @@
+<div class="landing-scope">
+  <nav class="navbar">
+    <div class="container flex-nav">
+      <div class="brand">
+        <mat-icon color="primary">account_balance</mat-icon>
+        <span>Finance<span>Tracker</span></span>
+      </div>
+      <div class="auth-btns">
+        <button mat-button routerLink="/login">Sign In</button>
+        <button mat-flat-button color="primary" routerLink="/register">Get Started</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <h1>Smart Financial Management <br><span>Made Simple.</span></h1>
+          <p>
+            Track your monthly cashflow, analyze expense distribution, and
+            monitor your financial health through a secure, unified dashboard.
+          </p>
+          <div class="actions">
+            <button mat-flat-button color="primary" class="cta-btn" routerLink="/register">
+              Create Free Account
+            </button>
+            <button mat-stroked-button routerLink="/login">View Demo</button>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <mat-card class="dashboard-preview" appearance="outlined">
+            <mat-card-header>
+              <mat-card-subtitle>Platform Overview</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content class="image-content">
+              <img
+                src="assets/bar.png"
+                alt="FinanceTracker Dashboard Preview"
+                class="responsive-mockup"
+                height="853" width="1280" />
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="core-features">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Core Project Capabilities</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="card-grid">
+        <mat-card appearance="outlined" class="feature-card">
+          <mat-icon color="primary">query_stats</mat-icon>
+          <h3>Expense Analytics</h3>
+          <p>Detailed breakdown of spending by category using interactive charts.</p>
+        </mat-card>
+
+        <mat-card appearance="outlined" class="feature-card">
+          <mat-icon color="primary">receipt_long</mat-icon>
+          <h3>Transaction History</h3>
+          <p>Complete CRUD management for income and expense logging with advanced filters.</p>
+        </mat-card>
+
+        <mat-card appearance="outlined" class="feature-card">
+          <mat-icon color="primary">notifications_none</mat-icon>
+          <h3>Smart Reminders</h3>
+          <p>Stay on top of your financial health with automated reminders and budget alerts.</p>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Finance Tracker &copy; 2026</p>
+      <div class="tech-stack">
+        <span>Angular 21</span> • <span>Django REST</span> • <span>PostgreSQL</span>
+      </div>
+    </div>
+  </footer>
+</div>

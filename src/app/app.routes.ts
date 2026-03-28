@@ -9,8 +9,17 @@ import { TransactionsComponent } from './features/transactions/transactions';
 import { Reminder } from './features/reminder/reminder';
 import { DashboardHome } from './features/dashboard-home/dashboard-home';
 import { ForgotPassword } from './features/auth/forgot-password/forgot-password';
+import { Home } from './layout/home/home';
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: Home,
+  },
+  {
+    path: 'home',
+    component: Home,
+  },
   {
     path: 'login',
     component: Login,
@@ -35,5 +44,10 @@ export const routes: Routes = [
       { path: 'transactions', component: TransactionsComponent },
       { path: 'reminders', component: Reminder },
     ],
+  },
+  {
+    path: '**',
+    redirectTo: 'home',
+    pathMatch: 'full',
   },
 ];

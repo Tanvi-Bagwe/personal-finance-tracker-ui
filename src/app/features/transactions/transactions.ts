@@ -92,10 +92,10 @@ export class TransactionsComponent implements OnInit {
     private readonly fb: FormBuilder,
   ) {
     this.transactionCreateForm = this.fb.group({
-      amount: [Validators.required, Validators.min(1)],
+      amount: [null, [Validators.required, Validators.min(1)]],
       date: [new Date().toISOString().split('T')[0], [Validators.required]],
-      category_id: ['', Validators.required],
-      transactionType: ['', Validators.required],
+      category_id: ['', [Validators.required]],
+      transactionType: ['', [Validators.required]],
       description: [''],
     });
   }

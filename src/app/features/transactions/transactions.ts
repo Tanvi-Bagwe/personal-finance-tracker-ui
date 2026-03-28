@@ -122,6 +122,7 @@ export class TransactionsComponent implements OnInit {
       },
       error: (err: any) => {
         this.isLoading.set(false);
+        this.notification.show('error', 'Failed to load categories');
       },
     });
     this.loadTransactions();

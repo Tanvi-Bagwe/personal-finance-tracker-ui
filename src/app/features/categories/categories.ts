@@ -9,6 +9,8 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { NotificationService } from '../../shared/service/notification-service/notification-service';
+import { ApiResponse } from '../../shared/models/api-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-categories',
@@ -53,8 +55,8 @@ export class CategoriesComponent implements OnInit {
   loadCategories() {
     this.isLoading.set(true);
     this.api.getCategories().subscribe({
-      next: (data: any) => {
-        this.categories.set(data);
+      next: (res: ApiResponse) => {
+        this.categories.set(res.data);
         this.isLoading.set(false);
       },
       error: () => {
@@ -71,15 +73,15 @@ export class CategoriesComponent implements OnInit {
       return;
     }
     this.api.createCategory(this.newCategory).subscribe({
-      next: () => {
-        this.notification.show('success', 'Category created successfully!');
+      next: (res: ApiResponse) => {
+        this.notification.show('success', res.message || 'Category created successfully!');
         this.loadCategories();
         this.newCategory.name = '';
         this.newCategory.type = '';
       },
-      error: (err: any) => {
-        const serverMessage = err.error?.error || 'Something went wrong';
-        this.notification.show('error', serverMessage);
+      error: (err: HttpErrorResponse) => {
+        const msg = err.error?.message || 'An unexpected error occurred';
+        this.notification.show('error', msg);
         this.isLoading.set(false);
       },
     });
@@ -92,9 +94,9 @@ export class CategoriesComponent implements OnInit {
           this.notification.show('success', 'Category deleted successfully!');
           this.loadCategories();
         },
-        error: () => {
-          const serverMessage = 'Something went wrong';
-          this.notification.show('error', serverMessage);
+        error: (err: HttpErrorResponse) => {
+          const msg = err.error?.message || 'An unexpected error occurred';
+          this.notification.show('error', msg);
           this.loadCategories();
         },
       });

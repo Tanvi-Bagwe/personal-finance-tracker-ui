@@ -6,6 +6,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { NotificationService } from '../../shared/service/notification-service/notification-service';
 import { LoaderService } from '../../shared/service/loader-service/loader-service';
+import { ApiResponse } from '../../shared/models/api-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface DashboardData {
   summary: {
@@ -51,8 +53,8 @@ export class DashboardHome implements OnInit {
   ngOnInit() {
     this.loaderService.show();
     this.api.getDashboardSummary().subscribe({
-      next: (res: any) => {
-        const data = res as DashboardData;
+      next: (res: ApiResponse) => {
+        const data = res.data as DashboardData;
         if (!data) return;
 
         this.summary.set(data.summary);
@@ -70,9 +72,13 @@ export class DashboardHome implements OnInit {
           this.initRadialChart(data.reminders);
         }
         this.loaderService.hide();
+        this.notificationService.show(
+          'success',
+          res.message || 'Dashboard initialized successfully!',
+        );
       },
-      error: (err) => {
-        this.notificationService.show('success', 'Something went wrong');
+      error: (err: HttpErrorResponse) => {
+        this.notificationService.show('error', 'Something went wrong');
         this.loaderService.hide();
       },
     });

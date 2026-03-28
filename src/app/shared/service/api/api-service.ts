@@ -10,6 +10,7 @@ import { AppStore } from '../app-store/app-store.service';
 import { CreateCategoryRequest } from '../../models/category.model';
 import { CreateTransactionRequest, Transaction } from '../../models/transaction.model';
 import { CreateReminderRequest, ReminderMoel } from '../../models/reminder.model';
+import { PasswordResetRequest } from '../../models/password-reset';
 
 @Injectable({
   providedIn: 'root',
@@ -110,6 +111,14 @@ export class ApiService {
     return this.http.put(`${this.API_URL}/reminders/${id}/update`, data, {
       headers: this.getHeader(),
     });
+  }
+
+  requestPasswordReset(data: any) {
+    return this.http.post(`${this.API_URL}/auth/otp-request`, data);
+  }
+
+  confirmPasswordReset(data: PasswordResetRequest) {
+    return this.http.post(`${this.API_URL}/auth/otp-confirm`, data);
   }
 
   getDashboardSummary() {

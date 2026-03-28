@@ -8,11 +8,16 @@ import { CategoriesComponent } from './features/categories/categories';
 import { TransactionsComponent } from './features/transactions/transactions';
 import { Reminder } from './features/reminder/reminder';
 import { DashboardHome } from './features/dashboard-home/dashboard-home';
+import { ForgotPassword } from './features/auth/forgot-password/forgot-password';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: Login,
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPassword,
   },
   {
     path: 'register',

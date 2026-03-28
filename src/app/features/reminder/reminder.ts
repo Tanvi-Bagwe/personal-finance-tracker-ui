@@ -31,6 +31,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditReminder } from '../edit-reminder/edit-reminder';
 import { ApiResponse } from '../../shared/models/api-response';
 
+// Reminder component - manages bill reminders with create, update, and delete functionality
 @Component({
   selector: 'app-reminder',
   imports: [
@@ -75,6 +76,7 @@ export class Reminder implements OnInit {
     private readonly dialog: MatDialog,
     private readonly fb: FormBuilder,
   ) {
+    // Create form with validators for reminder fields
     this.reminderForm = this.fb.group({
       reminder_days_before: [1],
       title: ['', [Validators.required]],
@@ -83,10 +85,12 @@ export class Reminder implements OnInit {
     });
   }
 
+  // Load reminders when component initializes
   ngOnInit() {
     this.loadReminders();
   }
 
+  // Fetch all reminders from API
   loadReminders() {
     this.isLoading.set(true);
     this.api.getReminders().subscribe({
@@ -100,6 +104,7 @@ export class Reminder implements OnInit {
     });
   }
 
+  // Create new reminder - validate form and check if date is not in past
   onCreate() {
     this.isLoading.set(true);
     if (this.reminderForm.invalid) {
@@ -115,6 +120,7 @@ export class Reminder implements OnInit {
       reminder_days_before: this.reminderForm.value.reminder_days_before,
     };
 
+    // Validate due date is not in the past
     if (new Date(newReminder.due_date) < new Date()) {
       this.notification.show('error', 'Due date cannot be in the past.');
       return;
@@ -135,6 +141,7 @@ export class Reminder implements OnInit {
     });
   }
 
+  // Mark reminder as completed/paid
   onComplete(id: number) {
     this.isLoading.set(true);
     this.api.updateReminderAction(id, { is_completed: true }).subscribe({
@@ -150,6 +157,7 @@ export class Reminder implements OnInit {
     });
   }
 
+  // Delete reminder after user confirmation
   onDelete(id: number) {
     this.isLoading.set(true);
     if (confirm('Delete this reminder?')) {
@@ -167,19 +175,21 @@ export class Reminder implements OnInit {
     }
   }
 
+  // Reset form fields to empty
   private resetForm() {
     this.reminderForm.reset();
   }
 
+  // Check if reminder is urgent (due within 3 days)
   isUrgent(dueDate: string): boolean {
     const today = new Date();
     const due = new Date(dueDate);
     const diffTime = due.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays >= 0 && diffDays <= 3; // Urgent if due within 3 days
+    return diffDays >= 0 && diffDays <= 3;
   }
 
-  // Mark as Read (Patch Action)
+  // Mark reminder as read
   onMarkRead(id: number) {
     this.isLoading.set(true);
     this.api.updateReminderAction(id, { is_read: true }).subscribe({
@@ -195,6 +205,7 @@ export class Reminder implements OnInit {
     });
   }
 
+  // Open edit dialog for reminder
   onEdit(reminder: ReminderMoel) {
     const dialogRef = this.dialog.open(EditReminder, {
       width: '450px',
@@ -208,6 +219,7 @@ export class Reminder implements OnInit {
     });
   }
 
+  // Update reminder with new data - validate form and check date
   updateReminder(updatedData: ReminderMoel) {
     this.isLoading.set(true);
     if (!updatedData.title || !updatedData.due_date || !updatedData.amount) {
@@ -216,6 +228,7 @@ export class Reminder implements OnInit {
       return;
     }
 
+    // Validate due date is not in the past
     if (new Date(updatedData.due_date) < new Date()) {
       this.notification.show('error', 'Due date cannot be in the past.');
       return;

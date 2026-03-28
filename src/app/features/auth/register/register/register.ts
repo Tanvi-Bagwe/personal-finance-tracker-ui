@@ -13,6 +13,7 @@ import { NotificationService } from '../../../../shared/service/notification-ser
 import { ApiResponse } from '../../../../shared/models/api-response';
 import { HttpErrorResponse } from '@angular/common/http';
 
+// Register component - handles user registration with validation
 @Component({
   selector: 'app-register',
   imports: [
@@ -43,6 +44,7 @@ export class Register implements OnInit {
     private readonly router: Router,
     private readonly notification: NotificationService,
   ) {
+    // Create registration form with validators for username, email, and password
     this.registerForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -57,13 +59,16 @@ export class Register implements OnInit {
     });
   }
 
+  // Check if user is already logged in and redirect to dashboard
   ngOnInit() {
     if (this.appStore.isLoggedIn()) {
       this.router.navigate(['/dashboard']);
     }
   }
 
+  // Handle user registration - validate form and send data to API
   onRegister() {
+    // Validate form before submitting
     if (this.registerForm.invalid) {
       this.notification.show('error', 'Please fix the errors in the form.');
       return;
@@ -75,6 +80,7 @@ export class Register implements OnInit {
       password: this.registerForm.value.password,
     };
 
+    // Call API to register user
     this.api.register(registerData).subscribe({
       next: (res: ApiResponse) => {
         this.notification.show('success', res.message || 'Registered successfully.');

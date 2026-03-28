@@ -7,6 +7,7 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 
+// Transaction edit dialog component - allows user to modify transaction details
 @Component({
   selector: 'app-transaction-edit',
   imports: [
@@ -27,15 +28,18 @@ import { MatButton } from '@angular/material/button';
 export class TransactionEdit {
   constructor(
     public dialogRef: MatDialogRef<TransactionEdit>,
-    @Inject(MAT_DIALOG_DATA) public data: { transaction: Transaction; categories: Category[] },
+    @Inject(MAT_DIALOG_DATA) public data: { transaction: Transaction; categories: Category[] }, // Receive transaction and categories data
   ) {
     // Clone the object so changes don't reflect in the table until saved
     this.data.transaction = { ...data.transaction };
   }
 
+  // Close dialog without saving changes
   onCancel(): void {
     this.dialogRef.close();
   }
+
+  // Close dialog and return updated transaction data
   onSave(): void {
     this.dialogRef.close(this.data.transaction);
   }

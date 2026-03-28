@@ -6,6 +6,7 @@ import { AppStore } from '../../shared/service/app-store/app-store.service';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { Router, RouterLink } from '@angular/router';
 
+// Header component - displays top navigation bar and logout button
 @Component({
   selector: 'app-header',
   imports: [MatIcon, MatIconButton, MatToolbar, MatMenu, MatMenuTrigger, MatMenuItem, RouterLink],
@@ -18,6 +19,7 @@ export class Header {
     private readonly router: Router,
   ) {}
 
+  // Logout user and redirect to login page
   logout(): void {
     this.appStore.logout();
     this.router.navigate(['/login']);

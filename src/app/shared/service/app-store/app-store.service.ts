@@ -1,6 +1,7 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
 import { AuthResponse } from '../../models/auth-models';
 
+// App store service - manages global application state
 @Injectable({
   providedIn: 'root',
 })
@@ -15,6 +16,7 @@ export class AppStore {
   readonly isSidebarOpen = signal<boolean>(true);
 
   // --- COMPUTED (Derived State) ---
+  // Check if user is logged in by checking if access token exists
   readonly isLoggedIn = computed(() => !!this.access());
 
   constructor() {
@@ -25,6 +27,7 @@ export class AppStore {
   }
 
   // --- ACTIONS ---
+  // Save authentication tokens to storage and state
   setAuth(res: AuthResponse) {
     localStorage.setItem('access', res.access);
     localStorage.setItem('refresh', res.refresh);
@@ -32,6 +35,7 @@ export class AppStore {
     this.refresh.set(res.refresh);
   }
 
+  // Clear user data and logout
   logout() {
     localStorage.clear();
     this.access.set(null);
@@ -39,6 +43,7 @@ export class AppStore {
     this.user.set(null);
   }
 
+  // Toggle sidebar open/close state
   toggleSidebar() {
     this.isSidebarOpen.update((v) => !v);
   }

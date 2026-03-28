@@ -13,6 +13,7 @@ import { CreateReminderRequest, ReminderMoel } from '../../models/reminder.model
 import { PasswordResetRequest } from '../../models/password-reset';
 import { environment } from '../../../../environments/environment';
 
+// API service - handles all HTTP requests to the backend
 @Injectable({
   providedIn: 'root',
 })
@@ -23,7 +24,7 @@ export class ApiService {
   ) {}
   private readonly API_URL = environment.apiUrl;
 
-  // Auth Endpoints
+  // Auth related endpoints
   login(data: LoginRequest) {
     return this.http.post(`${this.API_URL}/auth/login`, data);
   }
@@ -42,14 +43,16 @@ export class ApiService {
     return this.http.post(`${this.API_URL}/auth/verify`, data);
   }
 
-  forgotPassword(email: string) {
-    return this.http.post(`${this.API_URL}/forgot-password/`, { email });
+  // Password reset endpoints
+  requestPasswordReset(data: any) {
+    return this.http.post(`${this.API_URL}/auth/otp-request`, data);
   }
 
-  resetPassword(data: any) {
-    return this.http.post(`${this.API_URL}/reset-password/`, data);
+  confirmPasswordReset(data: PasswordResetRequest) {
+    return this.http.post(`${this.API_URL}/auth/otp-confirm`, data);
   }
 
+  // Category endpoints
   getCategories() {
     return this.http.get(`${this.API_URL}/category/`, { headers: this.getHeader() });
   }
@@ -64,10 +67,9 @@ export class ApiService {
     return this.http.delete(`${this.API_URL}/category/${id}/delete`, { headers: this.getHeader() });
   }
 
-  deleteTransaction(id: number) {
-    return this.http.delete(`${this.API_URL}/transactions/${id}/delete`, {
-      headers: this.getHeader(),
-    });
+  // Transaction endpoints
+  getTransactions() {
+    return this.http.get(`${this.API_URL}/transactions/`, { headers: this.getHeader() });
   }
 
   createTransaction(newTransaction: CreateTransactionRequest) {
@@ -76,18 +78,31 @@ export class ApiService {
     });
   }
 
-  getTransactions() {
-    return this.http.get(`${this.API_URL}/transactions/`, { headers: this.getHeader() });
-  }
-
   updateTransaction(data: Transaction) {
     return this.http.put(`${this.API_URL}/transactions/${data.id}/update`, data, {
       headers: this.getHeader(),
     });
   }
 
-  deleteReminder(id: number) {
-    return this.http.delete(`${this.API_URL}/reminders/${id}/delete`, {
+  deleteTransaction(id: number) {
+    return this.http.delete(`${this.API_URL}/transactions/${id}/delete`, {
+      headers: this.getHeader(),
+    });
+  }
+
+  // Reminder endpoints
+  getReminders() {
+    return this.http.get(`${this.API_URL}/reminders/`, { headers: this.getHeader() });
+  }
+
+  createReminder(newReminder: CreateReminderRequest) {
+    return this.http.post(`${this.API_URL}/reminders/create`, newReminder, {
+      headers: this.getHeader(),
+    });
+  }
+
+  updateReminder(id: number, data: ReminderMoel) {
+    return this.http.put(`${this.API_URL}/reminders/${id}/update`, data, {
       headers: this.getHeader(),
     });
   }
@@ -98,34 +113,18 @@ export class ApiService {
     });
   }
 
-  createReminder(newReminder: CreateReminderRequest) {
-    return this.http.post(`${this.API_URL}/reminders/create`, newReminder, {
+  deleteReminder(id: number) {
+    return this.http.delete(`${this.API_URL}/reminders/${id}/delete`, {
       headers: this.getHeader(),
     });
   }
 
-  getReminders() {
-    return this.http.get(`${this.API_URL}/reminders/`, { headers: this.getHeader() });
-  }
-
-  updateReminder(id: number, data: ReminderMoel) {
-    return this.http.put(`${this.API_URL}/reminders/${id}/update`, data, {
-      headers: this.getHeader(),
-    });
-  }
-
-  requestPasswordReset(data: any) {
-    return this.http.post(`${this.API_URL}/auth/otp-request`, data);
-  }
-
-  confirmPasswordReset(data: PasswordResetRequest) {
-    return this.http.post(`${this.API_URL}/auth/otp-confirm`, data);
-  }
-
+  // Dashboard endpoints
   getDashboardSummary() {
     return this.http.get(`${this.API_URL}/dashboard/summary`, { headers: this.getHeader() });
   }
 
+  // Add authorization token to request headers
   getHeader(): HttpHeaders {
     return new HttpHeaders({
       Authorization: 'Bearer ' + this.store.access(),

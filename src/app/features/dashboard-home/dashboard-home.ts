@@ -30,6 +30,7 @@ export interface DashboardData {
   };
 }
 
+// Dashboard home component - displays financial summary and charts
 @Component({
   selector: 'app-dashboard-home',
   imports: [CommonModule, NgApexchartsModule, MatCardModule, MatIconModule],
@@ -50,6 +51,7 @@ export class DashboardHome implements OnInit {
     private readonly loaderService: LoaderService,
   ) {}
 
+  // Load dashboard data and initialize all charts
   ngOnInit() {
     this.loaderService.show();
     this.api.getDashboardSummary().subscribe({
@@ -59,6 +61,7 @@ export class DashboardHome implements OnInit {
 
         this.summary.set(data.summary);
 
+        // Initialize charts with data from API
         if (data.trends) {
           this.initBarChart(data.trends);
           this.initGradientAreaChart(data.trends);
@@ -84,7 +87,9 @@ export class DashboardHome implements OnInit {
     });
   }
 
+  // Initialize bar chart for income vs expense trends
   private initBarChart(trends: any[]) {
+    // Extract unique months from trends data
     const categories = [
       ...new Set(
         trends.map((d) =>
@@ -111,6 +116,7 @@ export class DashboardHome implements OnInit {
     });
   }
 
+  // Initialize donut chart for expense distribution by category
   private initDonutChart(dist: any[]) {
     this.donutChartOptions.set({
       series: dist.map((d) => parseFloat(d.value)),
@@ -127,6 +133,7 @@ export class DashboardHome implements OnInit {
     });
   }
 
+  // Initialize radial chart for overdue reminders percentage
   private initRadialChart(reminders: any) {
     const total = reminders.pending || 1;
     const overdue = reminders.overdue || 0;
@@ -149,6 +156,7 @@ export class DashboardHome implements OnInit {
     });
   }
 
+  // Initialize gradient area chart for revenue trends
   private initGradientAreaChart(trends: any[]) {
     const categories = trends
       .filter((d) => d.type === 'income')

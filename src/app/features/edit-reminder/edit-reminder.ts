@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ReminderMoel } from '../../shared/models/reminder.model';
 
+// Edit reminder dialog component - allows user to modify reminder details
 @Component({
   selector: 'app-edit-reminder',
   imports: [
@@ -25,13 +26,15 @@ import { ReminderMoel } from '../../shared/models/reminder.model';
 export class EditReminder {
   constructor(
     public dialogRef: MatDialogRef<EditReminder>,
-    @Inject(MAT_DIALOG_DATA) public data: ReminderMoel,
+    @Inject(MAT_DIALOG_DATA) public data: ReminderMoel, // Receive reminder data from parent component
   ) {}
 
+  // Close dialog without saving changes
   onCancel(): void {
     this.dialogRef.close();
   }
 
+  // Close dialog and return updated reminder data
   onSave(): void {
     this.dialogRef.close(this.data);
   }

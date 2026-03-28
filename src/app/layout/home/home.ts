@@ -4,6 +4,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardHeader, MatCardSubtitle } from '@angular/material/card';
 
+// Home component - displays landing page with welcome message
 @Component({
   selector: 'app-home',
   imports: [

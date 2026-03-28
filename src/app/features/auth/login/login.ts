@@ -19,6 +19,7 @@ import { AuthResponse, LoginRequest } from '../../../shared/models/auth-models';
 import { ApiResponse } from '../../../shared/models/api-response';
 import { HttpErrorResponse } from '@angular/common/http';
 
+// Login component - handles user login with username and password
 @Component({
   selector: 'app-login',
   imports: [
@@ -49,6 +50,7 @@ export class Login implements OnInit {
     private readonly router: Router,
     private readonly notification: NotificationService,
   ) {
+    // Build login form with validators for username and password
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: [
@@ -62,13 +64,16 @@ export class Login implements OnInit {
     });
   }
 
+  // Check if user is already logged in and redirect to dashboard
   ngOnInit() {
     if (this.appStore.isLoggedIn()) {
       this.router.navigate(['/dashboard']);
     }
   }
 
+  // Handle user login - validate form and authenticate user
   login() {
+    // Validate form before submitting
     if (this.loginForm.invalid) {
       this.notification.show('error', 'Please fix the errors in the form.');
       return;
@@ -78,6 +83,7 @@ export class Login implements OnInit {
       password: this.loginForm.value.password,
     };
 
+    // Call API to login and store tokens
     this.api.login(data).subscribe({
       next: (res: ApiResponse) => {
         const payload: AuthResponse = {

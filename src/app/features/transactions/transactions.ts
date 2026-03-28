@@ -35,6 +35,7 @@ import { ApiResponse } from '../../shared/models/api-response';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatTooltip } from '@angular/material/tooltip';
 
+// Transactions component - manage income and expense transactions
 @Component({
   selector: 'app-transactions',
   standalone: true,
@@ -91,6 +92,7 @@ export class TransactionsComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly fb: FormBuilder,
   ) {
+    // Create form with validators for transaction fields
     this.transactionCreateForm = this.fb.group({
       amount: [null, [Validators.required, Validators.min(1)]],
       date: [new Date().toISOString().split('T')[0], [Validators.required]],
@@ -105,6 +107,8 @@ export class TransactionsComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['date', 'category', 'description', 'type', 'amount', 'actions'];
+
+  // Filter transactions based on selected category and type
   filteredTransactions = computed(() => {
     return this.transactions().filter((t) => {
       const categoryMatch =
@@ -114,6 +118,7 @@ export class TransactionsComponent implements OnInit {
     });
   });
 
+  // Load categories and transactions on component init
   loadInitialData() {
     this.api.getCategories().subscribe({
       next: (res: ApiResponse) => {
@@ -128,6 +133,7 @@ export class TransactionsComponent implements OnInit {
     this.loadTransactions();
   }
 
+  // Fetch all transactions from API
   loadTransactions() {
     this.api.getTransactions().subscribe({
       next: (res: ApiResponse) => {
@@ -141,6 +147,7 @@ export class TransactionsComponent implements OnInit {
     });
   }
 
+  // Create new transaction - validate form and send to API
   onCreate() {
     if (this.transactionCreateForm.invalid) {
       this.notification.show('warn', 'Please fill in all required fields');
@@ -152,7 +159,7 @@ export class TransactionsComponent implements OnInit {
       category_id: this.transactionCreateForm.value.category_id,
       type: this.transactionCreateForm.value.transactionType,
       description: this.transactionCreateForm.value.description,
-      date: this.transactionCreateForm.value.date, // Defaults to today
+      date: this.transactionCreateForm.value.date,
     };
 
     this.api.createTransaction(newTransaction).subscribe({
@@ -168,6 +175,7 @@ export class TransactionsComponent implements OnInit {
     });
   }
 
+  // Delete transaction after user confirmation
   onDelete(id: number) {
     if (confirm('Are you sure you want to delete this transaction?')) {
       this.api.deleteTransaction(id).subscribe({
@@ -180,9 +188,12 @@ export class TransactionsComponent implements OnInit {
     }
   }
 
+  // Reset form fields to empty
   private resetForm() {
     this.transactionCreateForm.reset();
   }
+
+  // Open edit dialog for transaction
   onEdit(transaction: Transaction) {
     const dialogRef = this.dialog.open(TransactionEdit, {
       width: '400px',
@@ -194,6 +205,7 @@ export class TransactionsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: Transaction) => {
       if (result) {
+        // Validate all required fields are filled
         if (
           !result.amount ||
           result.amount < 0 ||

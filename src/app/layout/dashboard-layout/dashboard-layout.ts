@@ -8,6 +8,7 @@ import { AppStore } from '../../shared/service/app-store/app-store.service';
 import { AuthResponse } from '../../shared/models/auth-models';
 import { ApiResponse } from '../../shared/models/api-response';
 
+// Dashboard layout component - handles main layout and session validation
 @Component({
   selector: 'app-dashboard-layout',
   imports: [MatListModule, MatIconModule, RouterModule, Sidebar],
@@ -21,10 +22,12 @@ export class DashboardLayout implements OnInit {
     private readonly router: Router,
   ) {}
 
+  // Check session when component loads
   ngOnInit() {
     this.validateSession();
   }
 
+  // Verify if session is still valid - refresh token if needed
   validateSession() {
     const payload: AuthResponse = {
       access: this.store.access() ?? '',
@@ -33,13 +36,14 @@ export class DashboardLayout implements OnInit {
 
     this.api.verifySession(payload).subscribe({
       next: (response: ApiResponse) => {
+        // If token refreshed successfully, update the stored token
         if (response.isSuccess && response.message === 'Access token refreshed successfully!') {
           payload.access = response.data.access;
           this.store.setAuth(payload);
         }
       },
       error: (err) => {
-        // SCENARIO 3: Both tokens are invalid/expired or malformed
+        // If both tokens are invalid, logout and redirect to login
         console.error('Session dead:', err);
         this.store.logout();
         this.router.navigate(['/login']);

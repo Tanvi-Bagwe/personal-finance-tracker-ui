@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { ApiResponse } from '../../../shared/models/api-response';
 import { HttpErrorResponse } from '@angular/common/http';
 
+// Forgot password component - handles password reset process with OTP verification
 @Component({
   selector: 'app-forgot-password',
   imports: [
@@ -51,9 +52,11 @@ export class ForgotPassword {
     private readonly router: Router,
     private readonly fb: FormBuilder,
   ) {
+    // Create form for OTP request with email validation
     this.otpRequestForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
     });
+    // Create form for password reset with OTP and new password validation
     this.passwordResetForm = this.fb.group({
       newPassword: [
         '',
@@ -67,7 +70,9 @@ export class ForgotPassword {
     });
   }
 
+  // Request OTP for password reset - send email to API
   onRequestOtp() {
+    // Validate email form
     if (this.otpRequestForm.invalid) {
       this.notification.show('error', 'Please fix the errors in the form.');
       return;
@@ -79,7 +84,7 @@ export class ForgotPassword {
     this.loaderService.show();
     this.api.requestPasswordReset(data).subscribe({
       next: (res: ApiResponse) => {
-        this.step.set(2);
+        this.step.set(2); // Move to OTP verification step
         this.isLoading.set(false);
         this.loaderService.hide();
         this.notification.show('success', res.message || 'OTP Sent Successfully');
@@ -93,7 +98,9 @@ export class ForgotPassword {
     });
   }
 
+  // Reset password - verify OTP and set new password
   onResetPassword() {
+    // Validate password reset form
     if (this.passwordResetForm.invalid) {
       this.notification.show('error', 'Please fix the errors in the form.');
       return;
@@ -112,7 +119,7 @@ export class ForgotPassword {
         this.loaderService.hide();
         this.isLoading.set(false);
         this.notification.show('success', res.message || 'Password reset successfully');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/login']); // Redirect to login after successful reset
       },
       error: (err: HttpErrorResponse) => {
         this.loaderService.hide();

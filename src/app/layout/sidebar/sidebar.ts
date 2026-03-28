@@ -7,6 +7,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { Header } from '../header/header';
 import { AppStore } from '../../shared/service/app-store/app-store.service';
 
+// Sidebar component - navigation menu for dashboard pages
 @Component({
   selector: 'app-sidebar',
   imports: [
@@ -32,12 +33,14 @@ export class Sidebar implements OnDestroy {
   constructor(readonly appStore: AppStore) {
     const media = inject(MediaMatcher);
 
+    // Check if screen width is less than 600px (mobile device)
     this._mobileQuery = media.matchMedia('(max-width: 600px)');
     this.isMobile.set(this._mobileQuery.matches);
     this._mobileQueryListener = () => this.isMobile.set(this._mobileQuery.matches);
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
   }
 
+  // Remove event listener when component is destroyed
   ngOnDestroy(): void {
     this._mobileQuery.removeEventListener('change', this._mobileQueryListener);
   }

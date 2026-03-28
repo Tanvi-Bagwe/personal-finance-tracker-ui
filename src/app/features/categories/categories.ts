@@ -12,6 +12,7 @@ import { NotificationService } from '../../shared/service/notification-service/n
 import { ApiResponse } from '../../shared/models/api-response';
 import { HttpErrorResponse } from '@angular/common/http';
 
+// Categories component - manage expense and income categories
 @Component({
   selector: 'app-categories',
   standalone: true,
@@ -40,6 +41,7 @@ export class CategoriesComponent implements OnInit {
     type: '',
   };
 
+  // Compute separate lists for expense and income categories
   expenseCategories = computed(() => this.categories().filter((c) => c.type === 'expense'));
   incomeCategories = computed(() => this.categories().filter((c) => c.type === 'income'));
 
@@ -48,10 +50,12 @@ export class CategoriesComponent implements OnInit {
     private readonly notification: NotificationService,
   ) {}
 
+  // Load all categories when component initializes
   ngOnInit() {
     this.loadCategories();
   }
 
+  // Fetch all categories from API
   loadCategories() {
     this.isLoading.set(true);
     this.api.getCategories().subscribe({
@@ -67,6 +71,7 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
+  // Create new category - validate name and type are filled
   onCreate() {
     if (this.newCategory.name === '' || this.newCategory.type === '') {
       this.notification.show('warn', 'Please enter category name and type');
@@ -87,6 +92,7 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
+  // Delete category after user confirmation
   onDelete(id: number) {
     if (confirm('Are you sure you want to delete this category?')) {
       this.api.deleteCategory(id).subscribe({

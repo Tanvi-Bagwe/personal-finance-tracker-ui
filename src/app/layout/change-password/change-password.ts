@@ -18,6 +18,7 @@ import { ChangePasswordRequest } from '../../shared/models/auth-models';
 import { ApiResponse } from '../../shared/models/api-response';
 import { HttpErrorResponse } from '@angular/common/http';
 
+// Change password component - allows user to change their password
 @Component({
   selector: 'app-change-password',
   standalone: true,
@@ -45,6 +46,7 @@ export class ChangePassword {
     private readonly api: ApiService,
     private readonly notification: NotificationService,
   ) {
+    // Create form with validators for password fields
     this.passwordForm = this.fb.group(
       {
         oldPassword: ['', [Validators.required]],
@@ -54,16 +56,18 @@ export class ChangePassword {
         ],
         confirmPassword: ['', [Validators.required]],
       },
-      { validators: this.passwordMatchValidator },
+      { validators: this.passwordMatchValidator }, // Check if new passwords match
     );
   }
 
+  // Validate that new password and confirm password match
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const newPass = control.get('newPassword')?.value;
     const confirm = control.get('confirmPassword')?.value;
     return newPass === confirm ? null : { mismatch: true };
   }
 
+  // Change user password - validate form and send to API
   onChangePassword() {
     if (this.passwordForm.valid) {
       const payload: ChangePasswordRequest = {

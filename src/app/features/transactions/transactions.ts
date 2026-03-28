@@ -1,6 +1,12 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CreateTransactionRequest, Transaction } from '../../shared/models/transaction.model';
 import { Category } from '../../shared/models/category.model';
 import { ApiService } from '../../shared/service/api/api-service';
@@ -9,7 +15,7 @@ import { NotificationService } from '../../shared/service/notification-service/n
 import { MatCard } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
 import {
   MatCell,
@@ -25,6 +31,9 @@ import {
 } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { TransactionEdit } from '../transaction-edit/transaction-edit';
+import { ApiResponse } from '../../shared/models/api-response';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-transactions',
@@ -51,11 +60,24 @@ import { TransactionEdit } from '../transaction-edit/transaction-edit';
     MatHeaderRowDef,
     MatInput,
     MatButton,
+    ReactiveFormsModule,
+    FormsModule,
+    MatButton,
+    MatCard,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatIcon,
+    ReactiveFormsModule,
+    MatError,
+    MatTooltip,
   ],
   templateUrl: './transactions.html',
   styleUrls: ['./transactions.scss'],
 })
 export class TransactionsComponent implements OnInit {
+  transactionCreateForm: FormGroup;
+
   transactions = signal<Transaction[]>([]);
   categories = signal<Category[]>([]);
   isLoading = signal<boolean>(false);
@@ -63,19 +85,20 @@ export class TransactionsComponent implements OnInit {
   selectedCategory = signal<number | string>('all');
   selectedType = signal<string>('all');
 
-  newTransaction: CreateTransactionRequest = {
-    amount: null,
-    category_id: null,
-    type: 'expense',
-    description: '',
-    date: new Date().toISOString().split('T')[0], // Defaults to today
-  };
-
   constructor(
     private readonly api: ApiService,
     private readonly notification: NotificationService,
     private readonly dialog: MatDialog,
-  ) {}
+    private readonly fb: FormBuilder,
+  ) {
+    this.transactionCreateForm = this.fb.group({
+      amount: [Validators.required, Validators.min(1)],
+      date: [new Date().toISOString().split('T')[0], [Validators.required]],
+      category_id: ['', Validators.required],
+      transactionType: ['', Validators.required],
+      description: [''],
+    });
+  }
 
   ngOnInit() {
     this.loadInitialData();
@@ -92,15 +115,22 @@ export class TransactionsComponent implements OnInit {
   });
 
   loadInitialData() {
-    this.isLoading.set(true);
-    this.api.getCategories().subscribe((cats: any) => this.categories.set(cats));
+    this.api.getCategories().subscribe({
+      next: (res: ApiResponse) => {
+        this.categories.set(res.data);
+        this.isLoading.set(false);
+      },
+      error: (err: any) => {
+        this.isLoading.set(false);
+      },
+    });
     this.loadTransactions();
   }
 
   loadTransactions() {
     this.api.getTransactions().subscribe({
-      next: (data: any) => {
-        this.transactions.set(data);
+      next: (res: ApiResponse) => {
+        this.transactions.set(res.data);
         this.isLoading.set(false);
       },
       error: () => {
@@ -111,23 +141,26 @@ export class TransactionsComponent implements OnInit {
   }
 
   onCreate() {
-    if (
-      !this.newTransaction.amount ||
-      !this.newTransaction.category_id ||
-      !this.newTransaction.date ||
-      !this.newTransaction.description
-    ) {
+    if (this.transactionCreateForm.invalid) {
       this.notification.show('warn', 'Please fill in all required fields');
       return;
     }
 
-    this.api.createTransaction(this.newTransaction).subscribe({
-      next: () => {
-        this.notification.show('success', 'Transaction recorded!');
+    const newTransaction: CreateTransactionRequest = {
+      amount: this.transactionCreateForm.value.amount,
+      category_id: this.transactionCreateForm.value.category_id,
+      type: this.transactionCreateForm.value.transactionType,
+      description: this.transactionCreateForm.value.description,
+      date: this.transactionCreateForm.value.date, // Defaults to today
+    };
+
+    this.api.createTransaction(newTransaction).subscribe({
+      next: (res: ApiResponse) => {
+        this.notification.show('success', res.message || 'Transaction successfully recorder');
         this.loadTransactions();
         this.resetForm();
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
         const msg = err.error?.error || 'Something went wrong';
         this.notification.show('error', msg);
       },
@@ -147,13 +180,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   private resetForm() {
-    this.newTransaction = {
-      amount: null,
-      category_id: null,
-      type: 'expense',
-      description: '',
-      date: new Date().toISOString().split('T')[0],
-    };
+    this.transactionCreateForm.reset();
   }
   onEdit(transaction: Transaction) {
     const dialogRef = this.dialog.open(TransactionEdit, {
@@ -166,12 +193,18 @@ export class TransactionsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: Transaction) => {
       if (result) {
-        if (!result.amount || !result.category_id || !result.date || !result.description) {
+        if (
+          !result.amount ||
+          result.amount < 0 ||
+          !result.category_id ||
+          !result.date ||
+          !result.description
+        ) {
           this.notification.show('warn', 'Please fill in all required fields');
           return;
         }
         this.api.updateTransaction(result).subscribe({
-          next: () => {
+          next: (res: ApiResponse) => {
             this.notification.show('success', 'Transaction updated successfully');
             this.loadTransactions();
           },

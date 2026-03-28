@@ -8,7 +8,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Category</mat-label>
-      <mat-select [(ngModel)]="data.transaction.category_id">
+      <mat-select [(ngModel)]="data.transaction.category_id" disabled>
         @for (cat of data.categories; track cat.id){
           <mat-option [value]="cat.id">
             {{cat.name}}

@@ -11,6 +11,7 @@ import { CreateCategoryRequest } from '../../models/category.model';
 import { CreateTransactionRequest, Transaction } from '../../models/transaction.model';
 import { CreateReminderRequest, ReminderMoel } from '../../models/reminder.model';
 import { PasswordResetRequest } from '../../models/password-reset';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class ApiService {
     private readonly http: HttpClient,
     private readonly store: AppStore,
   ) {}
-  private readonly API_URL = 'http://localhost:8000/api';
+  private readonly API_URL = environment.apiUrl;
 
   // Auth Endpoints
   login(data: LoginRequest) {

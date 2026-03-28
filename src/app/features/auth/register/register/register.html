@@ -1,31 +1,49 @@
 <app-header></app-header>
 
 <div class="registration-container">
-  <mat-card class="professional-card mat-card-width-400" appearance="outlined" >
+  <mat-card class="professional-card mat-card-width-400" appearance="outlined">
     <mat-card-content>
       <h2>Create Account</h2>
 
-      <form class="standard-form">
+      <form class="standard-form" [formGroup]="registerForm">
         <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
-          <input matInput [(ngModel)]="registerData.username" name="username" required>
-          <mat-icon matPrefix>person</mat-icon>
+          <input matInput formControlName="username" required>
+          @if (registerForm.get('username')?.hasError('required')) {
+            <mat-error>Username is required</mat-error>
+          }
+          @if (registerForm.get('username')?.hasError('minLength')) {
+            <mat-error>Minimum three characters are required</mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput type="email" [(ngModel)]="registerData.email" name="email" required>
+          <input matInput type="email" formControlName="email" required>
           <mat-icon matPrefix>email</mat-icon>
+          @if (registerForm.get('email')?.hasError('email')) {
+            <mat-error>Please enter a valid email address</mat-error>
+          }
+          @if (registerForm.get('email')?.hasError('required')) {
+            <mat-error>Email is required</mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
-          <input matInput type="password" [(ngModel)]="registerData.password" name="password" required>
-          <mat-icon matPrefix>lock</mat-icon>
+          <input matInput type="password" formControlName="password" required>
+          <mat-hint>Min. 8 chars, 1 uppercase, 1 number</mat-hint>
+          @if (registerForm.get('password')?.hasError('pattern')) {
+            <mat-error>Password is too weak</mat-error>
+          }
+          @if (registerForm.get('password')?.hasError('minlength')) {
+            <mat-error>Minimum 8 characters required</mat-error>
+          }
         </mat-form-field>
 
         <div class="form-actions">
-          <button mat-flat-button color="primary" type="button" class="login-register-button" (click)="onRegister()">
+          <button mat-flat-button color="primary" type="button" class="login-register-button"
+                  [disabled]="registerForm.invalid" (click)="onRegister()">
             Register
           </button>
 

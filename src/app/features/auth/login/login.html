@@ -3,22 +3,39 @@
   <mat-card class="mat-card-width-400">
     <h2>Login</h2>
 
-    <form>
+    <form [formGroup]="loginForm">
       <mat-form-field appearance="outline">
         <mat-label>Username</mat-label>
-        <input matInput [(ngModel)]="username" name="username" required>
+        <input matInput formControlName="username" required>
+        @if (loginForm.get('username')?.hasError('required')) {
+          <mat-error>Username is required</mat-error>
+        }
+        @if (loginForm.get('username')?.hasError('minLength')) {
+          <mat-error>Minimum three characters are required</mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
-        <input matInput type="password" [(ngModel)]="password" name="password" required>
+        <input matInput type="password" formControlName="password" required>
+        @if (loginForm.get('password')?.hasError('pattern')) {
+          <mat-error>Password is too weak</mat-error>
+        }
+        @if (loginForm.get('password')?.hasError('minlength')) {
+          <mat-error>Minimum 8 characters required</mat-error>
+        }
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="button" class="login-register-button" (click)="login()">
+      <button mat-raised-button color="primary" type="button" class="login-register-button" (click)="login()"
+              [disabled]="loginForm.invalid">
         Login
       </button>
       <button mat-button type="button" routerLink="/register" class="form-secondary-button">
         Don't have an account? Register
+      </button>
+
+      <button mat-button type="button" routerLink="/forgot-password" class="form-secondary-button" color="primary">
+        Forgot Password ?
       </button>
     </form>
   </mat-card>

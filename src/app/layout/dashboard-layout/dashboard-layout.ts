@@ -6,6 +6,7 @@ import { Sidebar } from '../sidebar/sidebar';
 import { ApiService } from '../../shared/service/api/api-service';
 import { AppStore } from '../../shared/service/app-store/app-store.service';
 import { AuthResponse } from '../../shared/models/auth-models';
+import { ApiResponse } from '../../shared/models/api-response';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -31,9 +32,9 @@ export class DashboardLayout implements OnInit {
     };
 
     this.api.verifySession(payload).subscribe({
-      next: (response: any) => {
-        if (response.status === 'refreshed') {
-          payload.access = response.access;
+      next: (response: ApiResponse) => {
+        if (response.isSuccess && response.message === 'Access token refreshed successfully!') {
+          payload.access = response.data.access;
           this.store.setAuth(payload);
         }
       },

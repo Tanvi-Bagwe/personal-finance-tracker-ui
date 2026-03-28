@@ -9,12 +9,14 @@ import {
 } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { ApiService } from '../../shared/service/api/api-service';
 import { NotificationService } from '../../shared/service/notification-service/notification-service';
 import { ChangePasswordRequest } from '../../shared/models/auth-models';
+import { ApiResponse } from '../../shared/models/api-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-change-password',
@@ -29,6 +31,7 @@ import { ChangePasswordRequest } from '../../shared/models/auth-models';
     MatInput,
     MatLabel,
     MatError,
+    MatHint,
     // ...
   ],
   templateUrl: './change-password.html',
@@ -45,15 +48,9 @@ export class ChangePassword {
     this.passwordForm = this.fb.group(
       {
         oldPassword: ['', [Validators.required]],
-        // Regex: 8+ chars, 1 Upper, 1 Lower, 1 Digit
         newPassword: [
           '',
-          [
-            Validators.required,
-            Validators.pattern(
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-            ),
-          ],
+          [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/)],
         ],
         confirmPassword: ['', [Validators.required]],
       },
@@ -75,13 +72,15 @@ export class ChangePassword {
       };
 
       this.api.changePassword(payload).subscribe({
-        next: () => {
-          this.notification.show('success', 'Password updated successfully!');
+        next: (res: ApiResponse) => {
+          this.notification.show('success', res.message || 'Password updated successfully!');
           this.passwordForm.reset();
         },
-        error: (err: { error: { message: any } }) =>
+        error: (err: HttpErrorResponse) =>
           this.notification.show('error', err.error?.message || 'Update failed'),
       });
+    } else {
+      this.notification.show('error', 'Please fix the errors in the form.');
     }
   }
 }
